@@ -72,9 +72,9 @@ public class Main {
             System.out.println(e.getMessage());
 
         } finally {
-            System.out.println("Press Enter to close...");
+            System.out.println("COMPLETE: Press Enter to close...");
             try {
-                System.in.read();
+                final int inChar = System.in.read();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -110,18 +110,24 @@ public class Main {
         //System.out.println(timeStamp);
 
         String destinationPath, backupDestinationPath;
-        System.out.println("Backing up and copying:");
-        System.out.println("===========================================");
+        //System.out.println("Backing up and copying:");
+        //System.out.println("===========================================");
         for (Map.Entry<String, String> oracleHome : oracleHomes.entrySet()) {
 
+            System.out.println("Processing Oracle Home [" + oracleHome.getKey() + "]");
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
             for (Map.Entry<FileNames, Path> fromPath : fromPaths.entrySet()) {
+                System.out.println("[" + fromPath.getKey() + "]");
+
+
                 //first create a backup
                 destinationPath = oracleHome.getValue() + "\\" + fromPath.getKey();
                 createBackup(copyOptions, timeStamp, destinationPath);
 
-                System.out.println("Copying new " + fromPath.getKey() + " to " + oracleHome.getValue());
+                System.out.println("2. Copying new file:");
+                System.out.println("- " + fromPath.getKey() + " to " + oracleHome.getValue());
                 Files.copy(fromPath.getValue(), Paths.get(destinationPath), copyOptions);
-                System.out.println("New File copied\n\n");
+                System.out.println("- DONE\n");
             }
 
         }
@@ -142,12 +148,12 @@ public class Main {
         if (Files.exists(Paths.get(destinationPath))) {
             backupDestinationPath = destinationPath + "_" + timeStamp + ".bak";
 
-            System.out.println("Creating a backup:");
+            System.out.println("1. Creating a backup:");
             System.out.println("- " + backupDestinationPath);
 
             Files.copy(Paths.get(destinationPath), Paths.get(backupDestinationPath), copyOptions);
 
-            System.out.println("Backup created\n");
+            System.out.println("- DONE\n");
         }
     }
 
@@ -219,18 +225,14 @@ public class Main {
         if (oracleHomes.isEmpty())
             throw new Exception("No valid oracle homes found");
 
-        System.out.println("Found the following Oracle Homes to update:");
-        System.out.println("===========================================");
-        for (Map.Entry<String, String> oracleHome : oracleHomes.entrySet()) {
-            System.out.print(oracleHome.getKey() + "\n- TNSNames location:  ");
-            System.out.println(oracleHome.getValue());
-            System.out.println("\n");
-        }
-
-        System.out.println("\n");
 
 
+        System.out.println("Oracle Homes to process:");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
+        for (Map.Entry<String, String> oracleHome : oracleHomes.entrySet())
+            System.out.println("- " + oracleHome.getKey() + " [" + oracleHome.getValue() + "]");
 
+        System.out.println("");
         return oracleHomes;
     }
 
@@ -257,7 +259,7 @@ public class Main {
 
         //if they passed an argument on the string, take the first one
         String currentDir = args.length != 0 ? args[0] : System.getProperty("user.dir");
-        System.out.println("Looking for files in:\n - " + currentDir + "\n");
+        //System.out.println("Looking for files in:\n - " + currentDir + "\n");
 
         Map<FileNames, Path> fromPaths = new HashMap<>();
 
@@ -274,13 +276,12 @@ public class Main {
             throw new FilesNotFoundCurrentDirException(FileNames.listAll());
 
 
-        System.out.println("Found the following files in " + currentDir + ":");
-        System.out.println("=====================================================");
+        System.out.println("Files to copy from [" + currentDir + "]:");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
         for (Map.Entry<FileNames, Path> fromPath : fromPaths.entrySet()) {
-            System.out.print(fromPath.getKey() + "\n- last modified ");
+            System.out.print("- " + fromPath.getKey());
             Date date = dateInputFormat.parse(Files.getLastModifiedTime(fromPath.getValue()).toString());
-            System.out.println(dateOutputFormat.format(date));
-            System.out.println("");
+            System.out.println("[" + dateOutputFormat.format(date) + "]");
         }
         System.out.println("\n");
         return fromPaths;
