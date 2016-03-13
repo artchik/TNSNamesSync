@@ -44,7 +44,7 @@ about the overwrite.
 The program automatically creates backups (if it finds any existing files) leaving them under the same directories (network\admin).
 The backups are saved in the following format, *filename_current_timestamp.bak* (e.g. sqlnet.ora_2016-03-12_18-57-05.bak)
 
-## Potential Issues
+### Potential Issues
 
 If you try to run the JAR file, and it won't open by simply double-clicking on it in Windows, you may need to open a command line
 and run it manually as follows:
