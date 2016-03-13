@@ -49,7 +49,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-
+        //  TODO: Accept argument on whether to log or not.
+        // If yes, create log file in current dir using local comp name and timestamp; output same as sout
+        // See http://www.codeproject.com/Tips/315892/A-quick-and-easy-way-to-direct-Java-System-out-to
         try {
 
             Map<FileNames, Path> fromPaths = getFilePathsToCopy(args);
