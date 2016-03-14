@@ -13,6 +13,7 @@ TNSNameSync is a console application written in Java that allows you update **tn
 
 ## Version
 1.0.0
+ - [Download current release](https://github.com/artybug/TNSNamesSync/releases) 
 
 ## Installation
 
