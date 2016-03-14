@@ -76,7 +76,7 @@ public class Main {
         } finally {
             System.out.println("COMPLETE: Press Enter to close...");
             try {
-                final int inChar = System.in.read();
+              int inChar = System.in.read();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -111,7 +111,7 @@ public class Main {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss" ).format(new Date());
         //System.out.println(timeStamp);
 
-        String destinationPath, backupDestinationPath;
+        String destinationPath;
         //System.out.println("Backing up and copying:");
         //System.out.println("===========================================");
         for (Map.Entry<String, String> oracleHome : oracleHomes.entrySet()) {
