@@ -59,35 +59,27 @@ C:\java -jar TNSNamesSync.jar optional_path_to_files
 ## Sample Output
 
 ```sh
-Looking for files in:
- - C:\myfiles\
-
-Found the following files in C:\myfiles\:
-=====================================================
-sqlnet.ora
-- last modified 03/09/2016 09:10:36
+Files to copy from [C:\myfiles]:
++++++++++++++++++++++++++++++++++++++++++++
+- sqlnet.ora[03/09/2016 09:10:36]
 
 
+Oracle Homes to process:
++++++++++++++++++++++++++++++++++++++++++++
+- OraClient11g_home1 [c:\oracle\product\11.2.0\client_1\network\admin]
 
-Found the following Oracle Homes to update:
-===========================================
-OraClient11g_home1
-- TNSNames location:  c:\oracle\product\11.2.0\client_1\network\admin
+Processing Oracle Home [OraClient11g_home1]
++++++++++++++++++++++++++++++++++++++++++++
+[sqlnet.ora]
+1. Creating a backup:
+- c:\oracle\product\11.2.0\client_1\network\admin\sqlnet.ora_2016-03-13_22-36-47.bak
+- DONE
 
+2. Copying new file:
+- sqlnet.ora to c:\oracle\product\11.2.0\client_1\network\admin
+- DONE
 
-
-
-Backing up and copying:
-===========================================
-Creating a backup:
-- c:\oracle\product\11.2.0\client_1\network\admin\sqlnet.ora_2016-03-12_23-02-29.bak
-Backup created
-
-Copying new sqlnet.ora to c:\oracle\product\11.2.0\client_1\network\admin
-New File copied
-
-
-Press Enter to close...
+COMPLETE: Press Enter to close...
 ```
 
 
