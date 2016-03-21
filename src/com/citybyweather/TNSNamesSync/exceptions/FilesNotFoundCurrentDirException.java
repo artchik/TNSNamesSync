@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.citybyweather.java.exceptions;
+package com.citybyweather.TNSNamesSync.exceptions;
 
 import java.io.FileNotFoundException;
 import java.util.List;

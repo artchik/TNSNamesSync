@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 Class-Path: TNSNamesSync.jar
-Main-Class: com.citybyweather.java.Main
+Main-Class: com.citybyweather.TNSNamesSync.Main
 

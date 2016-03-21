@@ -22,38 +22,57 @@
  * SOFTWARE.
  */
 
-package com.citybyweather.java.enums;
+package com.citybyweather.TNSNamesSync.classes;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-public enum FileNames {
 
-    TNSNAMES("tnsnames.ora"), SQLNET("sqlnet.ora");
+//@SuppressWarnings("unused")
+public class OracleHome {
 
     private String name;
+    private String path;
 
-    FileNames(String name) {
+
+
+    private static final String oracleTNSFileSubdir = "\\network\\admin\\";
+
+    public OracleHome() {}
+
+    public OracleHome(String name, String path) {
         this.name = name;
+        this.path = path;
     }
 
-    @Override
-    public String toString() {
+
+
+    public Boolean exists() {
+        return Files.exists(Paths.get(this.path));
+    }
+
+
+
+
+    public String getTNSPath() {
+        return this.getPath() + oracleTNSFileSubdir;
+    }
+
+
+    public String getName() {
         return name;
     }
 
-
-    public static List<String> listAll() {
-
-        List<String> fileNames = new ArrayList<>();
-
-        for (FileNames fileName : FileNames.values())
-            fileNames.add(fileName.toString());
-
-        return fileNames;
+    public void setName(String name) {
+        this.name = name;
     }
 
+    public String getPath() {
+        return path;
+    }
 
-
+    public void setPath(String path) {
+        this.path = path;
+    }
 }
