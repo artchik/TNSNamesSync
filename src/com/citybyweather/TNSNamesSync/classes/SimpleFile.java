@@ -173,8 +173,8 @@ public class SimpleFile {
     private void findAndCapture() throws IOException, ParseException {
         this.createPathType();
         this.setExists();
-        this.setLastModified();
-
+        if (this.exists())
+            this.setLastModified();
 
     }
 

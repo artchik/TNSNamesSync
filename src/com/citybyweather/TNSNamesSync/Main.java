@@ -65,7 +65,8 @@ public class Main {
 			System.out.println("COMPLETE: Press Enter to close...");
 			try {
 			  //@SuppressWarnings("UnusedAssignment")
-			  int inChar = System.in.read();
+				//noinspection ResultOfMethodCallIgnored
+				System.in.read();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

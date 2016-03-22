@@ -37,7 +37,7 @@ public class OracleHomeFinder {
     private static final String oracleHomeRegValueParams = "/v ORACLE_HOME";
 
     private static final String oracleRegPath = "HKEY_LOCAL_MACHINE\\SOFTWARE\\ORACLE";
-    private static final String oracleRegPath32 = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432NodeORACLE\\ORACLE";
+    private static final String oracleRegPath32 = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\ORACLE";
 
 
 
