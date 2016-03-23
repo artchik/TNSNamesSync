@@ -53,6 +53,7 @@ public class SimpleFile {
 
     private final CopyOption[] copyOptions;
     private String backupDestinationPath;
+    private Boolean backupCreatedLastCopy = false;
 
 
     public SimpleFile() {
@@ -189,6 +190,11 @@ public class SimpleFile {
         Files.copy(this.pathAsPathType, Paths.get(fullDestinationPath), copyOptions);
     }
 
+    public Boolean getBackupCreatedLastCopy()
+    {
+        return this.backupCreatedLastCopy;
+    }
+
 
 
     public void createBackup(String destinationPathNoName) throws IOException {
@@ -199,7 +205,11 @@ public class SimpleFile {
         if (Files.exists(Paths.get(fullDestinationPath))) {
             this.backupDestinationPath = fullDestinationPath + "_" + timeStamp + BACKUP_FILE_EXTENSION;
             Files.copy(Paths.get(fullDestinationPath), Paths.get(backupDestinationPath), this.copyOptions);
-        }
+
+            this.backupCreatedLastCopy = true;
+        } else
+            this.backupCreatedLastCopy = false;
+
     }
 
 

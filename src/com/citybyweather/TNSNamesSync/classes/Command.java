@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
 //@SuppressWarnings("unused")
 class Command {
 
-    private String commandStr;
+    private String[] cmd;
 
     private Process p;
     private String outputPatternToMatch;
@@ -46,17 +46,29 @@ class Command {
     public Command() {  }
 
     //@SuppressWarnings("WeakerAccess")
-    public Command(String commandStr) {
-        this.commandStr = commandStr;
+    public Command(String cmd) {
+        this.cmd = new String[] {
+                "cmd.exe",
+                "/c",
+                cmd
+        };
+    }
+    public Command(String[] cmd) {
+        this.cmd = cmd;
     }
 
-    public Command(String commandStr, String outputPatternToMatch) {
-        this(commandStr);
+    public Command(String cmd, String outputPatternToMatch) {
+        this(cmd);
+        this.outputPatternToMatch = outputPatternToMatch;
+    }
+
+    public Command(String[] cmd, String outputPatternToMatch) {
+        this(cmd);
         this.outputPatternToMatch = outputPatternToMatch;
     }
 
     public List<String> execute() throws InterruptedException, IOException {
-        this.p = Runtime.getRuntime().exec(this.commandStr);
+        this.p = Runtime.getRuntime().exec(this.cmd);
         this.p.waitFor();
         this.parseOutput();
 
@@ -64,9 +76,14 @@ class Command {
     }
 
 
-    public void setCommandStr(String commandStr) {
-        this.commandStr = commandStr;
+    public void setCmd(String cmd) {
+        this.cmd = new String[] {cmd};
     }
+
+    public void setCommandStr(String[] commandStr) {
+        this.cmd = commandStr ;
+    }
+
 
     public List<String> getResultingArray() {
         return this.resultingArray;
@@ -86,7 +103,10 @@ class Command {
         while ((commandOutputLine = reader.readLine()) != null) {
 
             commandOutputLine = commandOutputLine.trim();
-            if (this.outputPatternToMatch != null) {
+            if (this.resultingArray.contains(commandOutputLine)) //exclude duplicates
+                continue;
+
+            if (this.outputPatternToMatch != null) { //if matching is defined, do matching
                 if (Pattern.matches(outputPatternToMatch, commandOutputLine))
                     this.resultingArray.add(commandOutputLine);
             } else

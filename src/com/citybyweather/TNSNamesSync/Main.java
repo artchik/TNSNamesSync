@@ -133,7 +133,7 @@ public class Main {
 		System.out.println("Oracle Homes to process:");
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
 		for (Map.Entry<String, OracleHome> oracleHome : oracleHomes.entrySet())
-			System.out.println("- " + oracleHome.getValue().getName() + " [" + oracleHome.getValue().getPath() + "]");
+			System.out.println("- " + oracleHome.getValue().getName() + "\n" + oracleHome.getValue().getPathsString());
 		System.out.println("");
 
 		return oracleHomes;
@@ -162,13 +162,18 @@ public class Main {
 			System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
 
 			for (Map.Entry<String, SimpleFile> file : files.getFiles().entrySet()) {
-				file.getValue().copy(oracleHome.getValue().getTNSPath(), true);
 
-				System.out.print("- file copied:");
-				System.out.println(" [" + file.getValue().getName() + "] to [" + oracleHome.getValue().getTNSPath() + "]");
-				System.out.print("- backup created:");
-				System.out.println(" [" + file.getValue().getBackupFullPath() + "]");
-				System.out.println("");
+				for (String tnsPath : oracleHome.getValue().getTNSPaths()) {
+					file.getValue().copy(tnsPath, true);
+
+					System.out.print("- file copied:");
+					System.out.println(" [" + file.getValue().getName() + "] to [" + tnsPath + "]");
+					if (file.getValue().getBackupCreatedLastCopy()) {
+						System.out.print("- backup created:");
+						System.out.println(" [" + file.getValue().getBackupFullPath() + "]");
+					}
+					System.out.println("");
+				}
 
 			}
 

@@ -27,52 +27,89 @@ package com.citybyweather.TNSNamesSync.classes;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 
 //@SuppressWarnings("unused")
 public class OracleHome {
 
-    private String name;
-    private String path;
+	private String name;
+
+	private List<String> paths = new ArrayList<>();
+	@SuppressWarnings("CanBeFinal")
+    private List<String> tnsPaths = new ArrayList<>();
 
 
 
-    private static final String oracleTNSFileSubdir = "\\network\\admin\\";
+	private static final String oracleTNSFileSubdir = "\\network\\admin\\";
 
-    public OracleHome() {}
+	public OracleHome() {}
 
-    public OracleHome(String name, String path) {
+	public OracleHome(String name, String path) {
+		this.name = name;
+		this.addPath(path);
+	}
+
+    public OracleHome(String name, List<String> paths) {
         this.name = name;
-        this.path = path;
+        this.paths = paths;
+        this.setTNSPaths();
+    }
+
+	private Boolean pathExists(String path) {
+		return Files.exists(Paths.get(path));
+	}
+
+
+
+	public Boolean exists() {
+	   return !this.paths.isEmpty();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<String> getPaths() {
+		return this.paths;
+	}
+
+    private void setTNSPaths() {
+
+        this.tnsPaths.clear();
+        for (String path : this.paths)
+            this.tnsPaths.add(path + oracleTNSFileSubdir);
     }
 
 
 
-    public Boolean exists() {
-        return Files.exists(Paths.get(this.path));
-    }
+	public List<String> getTNSPaths() {
+		return this.tnsPaths;
+	}
 
+    public void addPath(String path) {
 
+		if (!this.paths.contains(path) && this.pathExists(path)) {
+			this.paths.add(path);
+			this.tnsPaths.add(path + oracleTNSFileSubdir);
+		}
+	}
 
+	public String getPathsString() {
 
-    public String getTNSPath() {
-        return this.getPath() + oracleTNSFileSubdir;
-    }
+		StringBuilder sb = new StringBuilder();
+		for (String s : this.paths)
+		{
+			sb.append("  [");
+			sb.append(s);
+			sb.append("]\n");
+		}
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
+		return sb.toString();
+	}
 }
