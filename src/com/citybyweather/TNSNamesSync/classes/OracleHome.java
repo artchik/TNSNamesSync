@@ -38,7 +38,7 @@ public class OracleHome {
 
 	private List<String> paths = new ArrayList<>();
 	@SuppressWarnings("CanBeFinal")
-    private List<String> tnsPaths = new ArrayList<>();
+	private List<String> tnsPaths = new ArrayList<>();
 
 
 
@@ -51,11 +51,11 @@ public class OracleHome {
 		this.addPath(path);
 	}
 
-    public OracleHome(String name, List<String> paths) {
-        this.name = name;
-        this.paths = paths;
-        this.setTNSPaths();
-    }
+	public OracleHome(String name, List<String> paths) {
+		this.name = name;
+		this.paths = paths;
+		this.setTNSPaths();
+	}
 
 	private Boolean pathExists(String path) {
 		return Files.exists(Paths.get(path));
@@ -79,12 +79,12 @@ public class OracleHome {
 		return this.paths;
 	}
 
-    private void setTNSPaths() {
+	private void setTNSPaths() {
 
-        this.tnsPaths.clear();
-        for (String path : this.paths)
-            this.tnsPaths.add(path + oracleTNSFileSubdir);
-    }
+		this.tnsPaths.clear();
+		for (String path : this.paths)
+			this.tnsPaths.add(path + oracleTNSFileSubdir);
+	}
 
 
 
@@ -92,7 +92,7 @@ public class OracleHome {
 		return this.tnsPaths;
 	}
 
-    public void addPath(String path) {
+	public void addPath(String path) {
 
 		if (!this.paths.contains(path) && this.pathExists(path)) {
 			this.paths.add(path);

@@ -38,185 +38,185 @@ import java.util.regex.Pattern;
 //@SuppressWarnings({"FieldCanBeLocal", "unused", "WeakerAccess"})
 public class SimpleFile {
 
-    private String name;
-    private String pathNoName;
-    private String fullPath;
-    private Path pathAsPathType;
-    private Boolean exists;
-    private String lastModified;
+	private String name;
+	private String pathNoName;
+	private String fullPath;
+	private Path pathAsPathType;
+	private Boolean exists;
+	private String lastModified;
 
-    private final String DIR_SEPARATOR = "\\\\";
-    private final String BACKUP_FILE_EXTENSION = ".bak";
+	private final String DIR_SEPARATOR = "\\\\";
+	private final String BACKUP_FILE_EXTENSION = ".bak";
 
-    private final DateFormat dateOutputFormat;
-    private final DateFormat dateInputFormat;
+	private final DateFormat dateOutputFormat;
+	private final DateFormat dateInputFormat;
 
-    private final CopyOption[] copyOptions;
-    private String backupDestinationPath;
-    private Boolean backupCreatedLastCopy = false;
-
-
-    public SimpleFile() {
-
-        this.exists = false;
-
-        dateOutputFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        dateInputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        dateInputFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        dateOutputFormat.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+	private final CopyOption[] copyOptions;
+	private String backupDestinationPath;
+	private Boolean backupCreatedLastCopy = false;
 
 
-        copyOptions = new CopyOption[] {
-                StandardCopyOption.REPLACE_EXISTING,
-                StandardCopyOption.COPY_ATTRIBUTES
-        };
-    }
+	public SimpleFile() {
+
+		this.exists = false;
+
+		dateOutputFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		dateInputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		dateInputFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+		dateOutputFormat.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 
 
-    public SimpleFile(String name, String pathNoName) throws IOException, ParseException {
-        this();
-        this.name = name;
-        this.pathNoName = pathNoName;
-
-        this.findAndCapture();
-    }
+		copyOptions = new CopyOption[] {
+				StandardCopyOption.REPLACE_EXISTING,
+				StandardCopyOption.COPY_ATTRIBUTES
+		};
+	}
 
 
-    public String getName() {
-        return name;
-    }
+	public SimpleFile(String name, String pathNoName) throws IOException, ParseException {
+		this();
+		this.name = name;
+		this.pathNoName = pathNoName;
 
-    public void setName(String name) throws Exception {
-        this.name = name;
-        if (this.pathNoName != null) {
-            this.setFullPath(this.pathNoName + this.name);
-            this.findAndCapture();
-        }
-    }
-
-    public String getPathNoName() {
-        return pathNoName;
-    }
-
-    public void setPathNoName(String pathNoName) throws Exception {
+		this.findAndCapture();
+	}
 
 
-        if  (!pathNoName.substring(pathNoName.length() - 1).equals(DIR_SEPARATOR))
-            pathNoName += DIR_SEPARATOR;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) throws Exception {
+		this.name = name;
+		if (this.pathNoName != null) {
+			this.setFullPath(this.pathNoName + this.name);
+			this.findAndCapture();
+		}
+	}
+
+	public String getPathNoName() {
+		return pathNoName;
+	}
+
+	public void setPathNoName(String pathNoName) throws Exception {
 
 
-        this.pathNoName = pathNoName;
-
-        if (this.name != null) {
-           this.fullPath = this.pathNoName + this.name;
-           this.findAndCapture();
-        }
-    }
-
-    public String getFullPath() {
-        return fullPath;
-    }
-
-    public void setFullPath(String fullPath) throws Exception {
-        this.fullPath = fullPath;
-        this.splitPathAndSet(this.fullPath);
-        this.findAndCapture();
-    }
+		if  (!pathNoName.substring(pathNoName.length() - 1).equals(DIR_SEPARATOR))
+			pathNoName += DIR_SEPARATOR;
 
 
-    public Path getPathAsPathType() {
-        return pathAsPathType;
-    }
+		this.pathNoName = pathNoName;
 
-    public void setPathAsPathType(Path pathAsPathType) throws Exception {
-        this.pathAsPathType = pathAsPathType;
+		if (this.name != null) {
+		   this.fullPath = this.pathNoName + this.name;
+		   this.findAndCapture();
+		}
+	}
 
-        this.splitPathAndSet(this.pathAsPathType.toString());
-    }
+	public String getFullPath() {
+		return fullPath;
+	}
 
-    public Boolean exists() {
-
-        this.setExists();
-        return exists;
-    }
-
-    private void setExists() {
-        this.exists = Files.exists(this.pathAsPathType);
-    }
-
-    private void createPathType() {
-        this.pathAsPathType = Paths.get(this.pathNoName, this.name);
-    }
-
-    private void splitPathAndSet(String path) throws Exception {
-
-        String escapedDirSeparator = Pattern.quote(DIR_SEPARATOR);
-        Pattern p = Pattern.compile("(.*" + escapedDirSeparator + ")([^" + escapedDirSeparator + "]+)$");
-        Matcher m = p.matcher(path);
-        if (!m.find())
-            throw new Exception("Can't get the path figured out");
-
-        this.pathNoName = m.group(1);
-        this.name = m.group(2);
-
-    }
-
-    public String getLastModified() {
-        return this.lastModified;
-    }
-
-    private void setLastModified() throws IOException, ParseException {
-
-        Date date = dateInputFormat.parse(Files.getLastModifiedTime(this.pathAsPathType).toString());
-        this.lastModified = dateOutputFormat.format(date);
-    }
-
-    private void findAndCapture() throws IOException, ParseException {
-        this.createPathType();
-        this.setExists();
-        if (this.exists())
-            this.setLastModified();
-
-    }
+	public void setFullPath(String fullPath) throws Exception {
+		this.fullPath = fullPath;
+		this.splitPathAndSet(this.fullPath);
+		this.findAndCapture();
+	}
 
 
-    public void copy(String destinationPathNoName, Boolean createBackup) throws IOException {
+	public Path getPathAsPathType() {
+		return pathAsPathType;
+	}
 
-        String fullDestinationPath = destinationPathNoName + this.name;
+	public void setPathAsPathType(Path pathAsPathType) throws Exception {
+		this.pathAsPathType = pathAsPathType;
 
-        if (createBackup)
-            createBackup(destinationPathNoName);
+		this.splitPathAndSet(this.pathAsPathType.toString());
+	}
 
-        Files.copy(this.pathAsPathType, Paths.get(fullDestinationPath), copyOptions);
-    }
+	public Boolean exists() {
 
-    public Boolean getBackupCreatedLastCopy()
-    {
-        return this.backupCreatedLastCopy;
-    }
+		this.setExists();
+		return exists;
+	}
+
+	private void setExists() {
+		this.exists = Files.exists(this.pathAsPathType);
+	}
+
+	private void createPathType() {
+		this.pathAsPathType = Paths.get(this.pathNoName, this.name);
+	}
+
+	private void splitPathAndSet(String path) throws Exception {
+
+		String escapedDirSeparator = Pattern.quote(DIR_SEPARATOR);
+		Pattern p = Pattern.compile("(.*" + escapedDirSeparator + ")([^" + escapedDirSeparator + "]+)$");
+		Matcher m = p.matcher(path);
+		if (!m.find())
+			throw new Exception("Can't get the path figured out");
+
+		this.pathNoName = m.group(1);
+		this.name = m.group(2);
+
+	}
+
+	public String getLastModified() {
+		return this.lastModified;
+	}
+
+	private void setLastModified() throws IOException, ParseException {
+
+		Date date = dateInputFormat.parse(Files.getLastModifiedTime(this.pathAsPathType).toString());
+		this.lastModified = dateOutputFormat.format(date);
+	}
+
+	private void findAndCapture() throws IOException, ParseException {
+		this.createPathType();
+		this.setExists();
+		if (this.exists())
+			this.setLastModified();
+
+	}
 
 
+	public void copy(String destinationPathNoName, Boolean createBackup) throws IOException {
 
-    public void createBackup(String destinationPathNoName) throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss" ).format(new Date());
-        String fullDestinationPath = destinationPathNoName + this.name;
+		String fullDestinationPath = destinationPathNoName + this.name;
 
-        //if the file already exists, create a backup copy
-        if (Files.exists(Paths.get(fullDestinationPath))) {
-            this.backupDestinationPath = fullDestinationPath + "_" + timeStamp + BACKUP_FILE_EXTENSION;
-            Files.copy(Paths.get(fullDestinationPath), Paths.get(backupDestinationPath), this.copyOptions);
+		if (createBackup)
+			createBackup(destinationPathNoName);
 
-            this.backupCreatedLastCopy = true;
-        } else
-            this.backupCreatedLastCopy = false;
+		Files.copy(this.pathAsPathType, Paths.get(fullDestinationPath), copyOptions);
+	}
 
-    }
+	public Boolean getBackupCreatedLastCopy()
+	{
+		return this.backupCreatedLastCopy;
+	}
 
 
 
-    public String getBackupFullPath() {
-        return this.backupDestinationPath;
-    }
+	public void createBackup(String destinationPathNoName) throws IOException {
+		String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss" ).format(new Date());
+		String fullDestinationPath = destinationPathNoName + this.name;
+
+		//if the file already exists, create a backup copy
+		if (Files.exists(Paths.get(fullDestinationPath))) {
+			this.backupDestinationPath = fullDestinationPath + "_" + timeStamp + BACKUP_FILE_EXTENSION;
+			Files.copy(Paths.get(fullDestinationPath), Paths.get(backupDestinationPath), this.copyOptions);
+
+			this.backupCreatedLastCopy = true;
+		} else
+			this.backupCreatedLastCopy = false;
+
+	}
+
+
+
+	public String getBackupFullPath() {
+		return this.backupDestinationPath;
+	}
 
 
 

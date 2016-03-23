@@ -33,75 +33,75 @@ import java.util.Map;
 //@SuppressWarnings({"unused", "CanBeFinal"})
 public class FileSetAtPath {
 
-    private String pathNoName;
-    //@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private HashMap<String, SimpleFile> files = new HashMap<>();
-    private Integer numTriedToAdd = 0;
+	private String pathNoName;
+	//@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+	private HashMap<String, SimpleFile> files = new HashMap<>();
+	private Integer numTriedToAdd = 0;
 
 
-    public FileSetAtPath(String pathNoName) {
-        this.pathNoName = pathNoName;
+	public FileSetAtPath(String pathNoName) {
+		this.pathNoName = pathNoName;
 
-    }
+	}
 
-    public HashMap<String, SimpleFile> getFiles() {
-        return this.files;
-    }
-
-
-    public void add(String fileName) throws IOException, ParseException {
-
-        SimpleFile sf = new SimpleFile(fileName, this.pathNoName);
-        this.numTriedToAdd++;
-        if (sf.exists())
-            this.files.put(fileName, new SimpleFile(fileName, this.pathNoName));
-
-    }
-
-    public void remove(String fileName) {
-        this.files.remove(fileName);
-    }
-
-    public Boolean anyExists() {
-        return !this.files.isEmpty();
-    }
-
-    public Boolean allExist() {
-        return this.numTriedToAdd == this.files.size();
-    }
+	public HashMap<String, SimpleFile> getFiles() {
+		return this.files;
+	}
 
 
-    /*
-    public Boolean anyExists() {
+	public void add(String fileName) throws IOException, ParseException {
 
-        for (Map.Entry<String, SimpleFile> fileInSet : this.files.entrySet()) {
-            if (fileInSet.getValue().getExists())
-                return true;
-        }
+		SimpleFile sf = new SimpleFile(fileName, this.pathNoName);
+		this.numTriedToAdd++;
+		if (sf.exists())
+			this.files.put(fileName, new SimpleFile(fileName, this.pathNoName));
 
-        return false;
-    }
-    */
+	}
 
-    /*
-    public Boolean allExist() {
-        Boolean exist = true;
+	public void remove(String fileName) {
+		this.files.remove(fileName);
+	}
 
-        for (Map.Entry<String, SimpleFile> fileInSet : this.files.entrySet()) {
-            //noinspection ConstantConditions
-            if (!(exist &= fileInSet.getValue().getExists()))
-                break;
-        }
+	public Boolean anyExists() {
+		return !this.files.isEmpty();
+	}
 
-        return exist;
-    }
-    */
+	public Boolean allExist() {
+		return this.numTriedToAdd == this.files.size();
+	}
 
-    public void copy(String destinationPathNoName, Boolean backup) throws IOException {
-        for (Map.Entry<String, SimpleFile> fileInSet : this.files.entrySet())
-            fileInSet.getValue().copy(destinationPathNoName, backup);
 
-    }
+	/*
+	public Boolean anyExists() {
+
+		for (Map.Entry<String, SimpleFile> fileInSet : this.files.entrySet()) {
+			if (fileInSet.getValue().getExists())
+				return true;
+		}
+
+		return false;
+	}
+	*/
+
+	/*
+	public Boolean allExist() {
+		Boolean exist = true;
+
+		for (Map.Entry<String, SimpleFile> fileInSet : this.files.entrySet()) {
+			//noinspection ConstantConditions
+			if (!(exist &= fileInSet.getValue().getExists()))
+				break;
+		}
+
+		return exist;
+	}
+	*/
+
+	public void copy(String destinationPathNoName, Boolean backup) throws IOException {
+		for (Map.Entry<String, SimpleFile> fileInSet : this.files.entrySet())
+			fileInSet.getValue().copy(destinationPathNoName, backup);
+
+	}
 
 
 
