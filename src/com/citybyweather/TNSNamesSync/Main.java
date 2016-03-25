@@ -60,6 +60,7 @@ public class Main {
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 
 		} finally {
 			System.out.println("COMPLETE: Press Enter to close...");
@@ -164,7 +165,14 @@ public class Main {
 			for (Map.Entry<String, SimpleFile> file : files.getFiles().entrySet()) {
 
 				for (String tnsPath : oracleHome.getValue().getTNSPaths()) {
-					file.getValue().copy(tnsPath, true);
+					try {
+						file.getValue().copy(tnsPath, true);
+					} catch (IOException e) {
+						//e.printStackTrace();
+						System.out.println("Error occurred trying to copy " + file.getValue().getName() + " file into: [" + tnsPath + "]");
+						System.out.println("");
+						continue;
+					}
 
 					System.out.print("- file copied:");
 					System.out.println(" [" + file.getValue().getName() + "] to [" + tnsPath + "]");

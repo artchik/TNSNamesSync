@@ -184,10 +184,24 @@ public class SimpleFile {
 
 		String fullDestinationPath = destinationPathNoName + this.name;
 
-		if (createBackup)
-			createBackup(destinationPathNoName);
+		//clear the directory readonly attribute
+		Files.setAttribute(Paths.get(destinationPathNoName), "dos:readonly", false);
 
-		Files.copy(this.pathAsPathType, Paths.get(fullDestinationPath), copyOptions);
+
+		Path fullDestinationPathAsPath = Paths.get(fullDestinationPath);
+		Files.setAttribute(fullDestinationPathAsPath, "dos:readonly", false); //clear read-only
+
+		try {
+			if (createBackup)
+				createBackup(destinationPathNoName);
+		} catch (IOException e) {
+
+			System.out.println("Error occurred trying to back up file into: [" + destinationPathNoName + "]");
+
+			throw e;
+		}
+
+		Files.copy(this.pathAsPathType, fullDestinationPathAsPath, copyOptions);
 	}
 
 	public Boolean getBackupCreatedLastCopy()

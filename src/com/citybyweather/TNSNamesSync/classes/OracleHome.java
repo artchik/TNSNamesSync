@@ -37,7 +37,6 @@ public class OracleHome {
 	private String name;
 
 	private List<String> paths = new ArrayList<>();
-	@SuppressWarnings("CanBeFinal")
 	private List<String> tnsPaths = new ArrayList<>();
 
 
