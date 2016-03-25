@@ -12,7 +12,7 @@ TNSNameSync is a console application written in Java that allows you update **tn
 
 
 ## Version
-1.0.0
+1.1.0
  - [Download current release](https://github.com/artybug/TNSNamesSync/releases) 
 
 ## Installation
@@ -62,23 +62,33 @@ C:\java -jar TNSNamesSync.jar optional_path_to_files
 ```sh
 Files to copy from [C:\myfiles]:
 +++++++++++++++++++++++++++++++++++++++++++
-- sqlnet.ora[03/09/2016 09:10:36]
+- tnsnames.ora[03/09/2016 09:13:48]
 
 
 Oracle Homes to process:
 +++++++++++++++++++++++++++++++++++++++++++
-- OraClient11g_home1 [c:\oracle\product\11.2.0\client_1\network\admin]
+- OWB11203_home
+  [C:\oracle\product\owb11203]
+
+- OraClient11g_home1
+  [C:\oracle\product\11.2.0\client_32]
+  [c:\oracle\product\11.2.0\client_1]
+
+
+Processing Oracle Home [OWB11203_home]
++++++++++++++++++++++++++++++++++++++++++++
+- file copied: [tnsnames.ora] to [C:\oracle\product\owb11203\network\admin\]
+- backup created: [C:\oracle\product\owb11203\network\admin\tnsnames.ora_2016-03-25_17-54-59.bak]
+
 
 Processing Oracle Home [OraClient11g_home1]
 +++++++++++++++++++++++++++++++++++++++++++
-[sqlnet.ora]
-1. Creating a backup:
-- c:\oracle\product\11.2.0\client_1\network\admin\sqlnet.ora_2016-03-13_22-36-47.bak
-- DONE
+- file copied: [tnsnames.ora] to [C:\oracle\product\11.2.0\client_32\network\admin\]
+- backup created: [C:\oracle\product\11.2.0\client_32\network\admin\tnsnames.ora_2016-03-25_17-54-59.bak]
 
-2. Copying new file:
-- sqlnet.ora to c:\oracle\product\11.2.0\client_1\network\admin
-- DONE
+- file copied: [tnsnames.ora] to [c:\oracle\product\11.2.0\client_1\network\admin\]
+- backup created: [c:\oracle\product\11.2.0\client_1\network\admin\tnsnames.ora_2016-03-25_17-54-59.bak]
+
 
 COMPLETE: Press Enter to close...
 ```
