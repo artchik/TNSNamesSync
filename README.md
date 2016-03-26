@@ -1,8 +1,8 @@
 # TNSNamesSync
 
-TNSNameSync is a console application written in Java that allows you update **tnsnames.ora** and **sqlnet.ora** across multiple Oracle homes on a Windows computer.
+TNSNameSync is a console application written in Java that allows you to update **tnsnames.ora** and **sqlnet.ora** across multiple Oracle homes on a Windows computer.
 
-  - Automatically finds all relevant Oracle Homes on the PC
+  - Automatically finds all relevant Oracle Homes on the Windows PC
   - Backs up existing **tnsnames.ora** and **sqlnet.ora**
   - Updates all of the **tnsnames.ora** and **sqlnet.ora** under all of the Oracle Homes
 
@@ -14,6 +14,9 @@ TNSNameSync is a console application written in Java that allows you update **tn
 ## Version
 1.1.0
  - [Download current release](https://github.com/artybug/TNSNamesSync/releases) 
+ 
+## Compatibility
+Windows 7 and up
 
 ## Installation
 
