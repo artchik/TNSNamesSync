@@ -187,9 +187,7 @@ public class SimpleFile {
 		//clear the directory readonly attribute
 		Files.setAttribute(Paths.get(destinationPathNoName), "dos:readonly", false);
 
-
 		Path fullDestinationPathAsPath = Paths.get(fullDestinationPath);
-		Files.setAttribute(fullDestinationPathAsPath, "dos:readonly", false); //clear read-only
 
 		try {
 			if (createBackup)
@@ -214,11 +212,15 @@ public class SimpleFile {
 	public void createBackup(String destinationPathNoName) throws IOException {
 		String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss" ).format(new Date());
 		String fullDestinationPath = destinationPathNoName + this.name;
+		Path fullDestinationPathAsPath = Paths.get(fullDestinationPath);
 
 		//if the file already exists, create a backup copy
-		if (Files.exists(Paths.get(fullDestinationPath))) {
+		if (Files.exists(fullDestinationPathAsPath)) {
 			this.backupDestinationPath = fullDestinationPath + "_" + timeStamp + BACKUP_FILE_EXTENSION;
 			Files.copy(Paths.get(fullDestinationPath), Paths.get(backupDestinationPath), this.copyOptions);
+
+			//remove the read-only attribute, as we're going to overwrite it
+			Files.setAttribute(fullDestinationPathAsPath, "dos:readonly", false);
 
 			this.backupCreatedLastCopy = true;
 		} else
