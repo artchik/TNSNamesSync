@@ -14,7 +14,10 @@ TNSNameSync is a console application written in Java that allows you to update *
 ## Version
 1.1.1
  - [Download current release](https://github.com/artybug/TNSNamesSync/releases) 
- 
+
+<a href='https://ko-fi.com/A636G5' target='_blank'><img height='32' style='border:0px;height:32px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=a' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
+
 ## Compatibility
 Windows 7 and up
 
@@ -95,7 +98,6 @@ Processing Oracle Home [OraClient11g_home1]
 
 COMPLETE: Press Enter to close...
 ```
-
 
 License
 ----
